@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ivy Presto — commercial font; add licensed .woff2 files to public/fonts/ */
+@font-face {
+  font-family: "Ivy Presto";
+  src: url("/fonts/IvyPresto-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ivy Presto";
+  src: url("/fonts/IvyPresto-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ivypresto-display";
+  src: url("/fonts/IvyPrestoDisplay-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ivypresto-display";
+  src: url("/fonts/IvyPrestoDisplay-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ivypresto-display";
+  src: url("/fonts/IvyPrestoDisplay-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-chocolate font-presto text-base font-normal antialiased;
+  }
+
+  ::selection {
+    @apply bg-earth-gold/20 text-chocolate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Editorial "paper sheet" — homepage only */
+  .sheet {
+    @apply relative;
+  }
+
+  /* Paper tooth — faint fractal grain, scrolls with the sheet */
+  .sheet::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 z-30 opacity-[0.05];
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .sheet-rule {
+    @apply h-px w-full bg-chocolate/[0.12];
+  }
+
+  .folio {
+    @apply font-sans text-[11px] font-medium uppercase tracking-[0.25em] text-chocolate/45;
+  }
+
+  .section-padding {
+    @apply px-6 py-24 md:px-12 lg:px-20 lg:py-32;
+  }
+
+  .heading-h1 {
+    @apply font-presto-display text-[53px] font-light leading-[1.15] text-chocolate;
+  }
+
+  .heading-h2 {
+    @apply font-presto text-[44px] font-medium leading-tight text-chocolate;
+  }
+
+  .heading-h3 {
+    @apply font-presto-display text-[35px] font-medium leading-tight text-chocolate;
+  }
+
+  .body-text {
+    @apply font-presto text-base md:text-lg lg:text-xl font-normal leading-relaxed;
+  }
+
+  .body-paragraph {
+    @apply font-presto-display text-[21px] font-normal leading-relaxed text-chocolate/75;
+  }
+
+  .nav-link {
+    @apply font-sans text-base font-normal;
+  }
+
+  .nav-menu-link {
+    @apply relative font-sans text-[13px] font-bold uppercase tracking-normal
+           text-chocolate-link/90 transition-colors duration-300 hover:text-chocolate;
+  }
+
+  .nav-menu-link::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0
+           bg-chocolate transition-transform duration-300 ease-out;
+  }
+
+  .nav-menu-link:hover::after,
+  .nav-menu-link-active::after {
+    @apply scale-x-100;
+  }
+
+  .nav-menu-link-active {
+    @apply text-chocolate;
+  }
+
+  .section-label {
+    @apply nav-link text-xs uppercase tracking-[0.3em] text-chocolate/60 font-medium;
+  }
+
+  .intro-script {
+    @apply body-text italic text-chocolate/80;
+  }
+
+  .divider-line {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-chocolate/20 to-transparent;
+  }
+
+  .divider-dotted {
+    @apply w-full max-w-2xl mx-auto border-t border-dotted border-chocolate/30;
+  }
+
+  .cta-link {
+    @apply nav-link inline-flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-chocolate
+           border-b border-chocolate/30 pb-1 transition-all duration-300
+           hover:border-earth-gold hover:text-earth-gold;
+  }
+
+  .media-placeholder {
+    @apply relative flex items-center justify-center overflow-hidden
+           bg-cream-200 border border-chocolate/10 rounded-sm;
+  }
+}

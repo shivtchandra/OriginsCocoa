@@ -1,0 +1,40 @@
+
+> origins-cocoa@0.1.0 build
+> next build
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/shivat/package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * /Users/shivat/Documents/origins cocoa/package-lock.json
+
+   ▲ Next.js 15.5.22
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 5.4s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/8) ...
+   Generating static pages (2/8) 
+   Generating static pages (4/8) 
+   Generating static pages (6/8) 
+ ✓ Generating static pages (8/8)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    2.78 kB         154 kB
+├ ○ /_not-found                            120 B         103 kB
+├ ○ /community                             401 B         143 kB
+├ ○ /connect                             1.72 kB         141 kB
+├ ○ /our-craft                           2.08 kB         153 kB
+└ ○ /products                            1.99 kB         145 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/255-3d881dfa8c72bc56.js       46.3 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  └ other shared chunks (total)          1.92 kB
+
+
+○  (Static)  prerendered as static content
+
