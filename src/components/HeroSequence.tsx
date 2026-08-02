@@ -181,7 +181,7 @@ export function HeroSequence() {
               className="h-[80vh] w-[80vh] rounded-full opacity-70"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255,248,233,0.95) 0%, rgba(239,231,214,0) 62%)",
+                  "radial-gradient(circle, rgba(255,249,236,0.95) 0%, rgba(234,223,200,0) 62%)",
               }}
             />
           </div>

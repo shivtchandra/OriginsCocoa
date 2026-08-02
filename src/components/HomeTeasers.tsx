@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
+import { MediaPlaceholder } from "./MediaPlaceholder";
 
 const rows = [
   {
@@ -8,7 +9,7 @@ const rows = [
     label: "Our Craft",
     title: "From farm to fermentery",
     description:
-      "West Godavari's fertile land and our state-of-the-art fermentery, unlocking a new world of Indian cacao flavour.",
+      "Fertile West Godavari land, scientific fermentation, and sun-drying — the making of a distinct Indian cacao.",
     href: "/our-craft",
     image: "/images/cacao-farm.jpg",
     imageAlt: "Cacao farm in West Godavari",
@@ -65,15 +66,23 @@ export function HomeIndex() {
               <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center py-16 lg:py-24">
                 <FadeIn className={flip ? "lg:order-2" : ""}>
                   <Link href={row.href} className="group block relative overflow-hidden">
-                    <div className="relative aspect-[4/3] overflow-hidden">
-                      <Image
-                        src={row.image}
-                        alt={row.imageAlt}
-                        fill
-                        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                        sizes="(max-width: 1024px) 100vw, 50vw"
+                    {row.label === "Products" ? (
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <Image
+                          src={row.image}
+                          alt={row.imageAlt}
+                          fill
+                          className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                        />
+                      </div>
+                    ) : (
+                      <MediaPlaceholder
+                        label={`${row.label} — Image Placeholder`}
+                        aspectRatio="aspect-[4/3]"
+                        className="transition-colors duration-500 group-hover:border-chocolate/20"
                       />
-                    </div>
+                    )}
                   </Link>
                 </FadeIn>
 

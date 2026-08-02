@@ -14,15 +14,9 @@
    - Network:      http://192.168.0.103:3000
 
  ✓ Starting...
- ✓ Ready in 1420ms
+ ✓ Ready in 1481ms
  ○ Compiling / ...
- ✓ Compiled / in 3.3s (1414 modules)
- GET / 200 in 3816ms
- ✓ Compiled in 137ms (621 modules)
- GET / 200 in 183ms
- GET / 200 in 193ms
- ✓ Compiled /our-craft in 439ms (1388 modules)
- GET /our-craft 200 in 577ms
- ✓ Compiled /products in 250ms (1398 modules)
- GET /products 200 in 331ms
- GET / 200 in 50ms
+ ✓ Compiled / in 3.5s (1414 modules)
+ GET / 200 in 4060ms
+ ✓ Compiled in 470ms (621 modules)
+ GET / 200 in 174ms

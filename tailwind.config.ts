@@ -10,11 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         cream: {
-          DEFAULT: "#EFE7D6",
-          50: "#F7F2E9",
-          100: "#EFE7D6",
-          200: "#E6DAC4",
-          300: "#DACDB3",
+          DEFAULT: "#EADFC8",
+          50: "#F3ECDC",
+          100: "#EADFC8",
+          200: "#DFD0B4",
+          300: "#D2C09F",
         },
         chocolate: {
           DEFAULT: "#2D1B14",
