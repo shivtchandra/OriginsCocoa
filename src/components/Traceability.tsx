@@ -1,27 +1,26 @@
 import { FadeIn } from "./FadeIn";
 import { MediaPlaceholder } from "./MediaPlaceholder";
+import type { AboutContent } from "@/lib/about-db";
 
-export function Traceability() {
+type TraceabilityProps = {
+  content: AboutContent;
+};
+
+export function Traceability({ content }: TraceabilityProps) {
+  const { values } = content;
+  const primary = values.items[0];
+  const secondary = values.items[1];
+
   return (
     <section id="traceability" className="section-padding bg-cream">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <FadeIn>
-            <p className="section-label mb-4">End-to-end</p>
-            <h2 className="heading-h2 mb-6">
-              Traceable Beans
-            </h2>
+            <p className="section-label mb-4">{primary?.badge ?? "End-to-end"}</p>
+            <h2 className="heading-h2 mb-6">{values.headline}</h2>
             <div className="divider-line mb-8" />
-            <p className="body-paragraph mb-6">
-              We practise complete transparency with our cacao bean supply chain —
-              crucial to empowering our farmers, chocolate makers, and consumers.
-            </p>
-            <p className="body-paragraph">
-              Every part of our bean&apos;s journey is meticulously recorded on our
-              blockchain-enabled platform: from the farm and the farmer, to the
-              purchase transaction, harvest date, and all post-harvest processes at
-              our fermentery until packed and shipped to you.
-            </p>
+            {primary ? <p className="body-paragraph mb-6">{primary.body}</p> : null}
+            {secondary ? <p className="body-paragraph">{secondary.body}</p> : null}
           </FadeIn>
 
           <FadeIn delay={0.2}>
