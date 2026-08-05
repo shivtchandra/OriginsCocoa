@@ -2,7 +2,7 @@ import { FadeIn } from "./FadeIn";
 
 export function HomeManifesto() {
   return (
-    <section className="section-padding bg-cream">
+    <section className="manifesto-vibe section-padding">
       <div className="max-w-3xl mx-auto text-center">
         <FadeIn>
           <p className="section-label mb-6">A new model for a new Indian cacao</p>

@@ -2,169 +2,119 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { MediaPlaceholder } from "./MediaPlaceholder";
+import { PRODUCT_CATEGORIES, type ProductCategory, type CacaoLot } from "@/content/brand";
+import { lotsByCategory } from "@/lib/brand-db";
 
-const tabs = [
-  "Single Origin",
-  "Single Farm",
-  "Creative Fermentation",
-  "Custom Fermentation",
-] as const;
+function LotCard({ lot }: { lot: CacaoLot }) {
+  const specs: [string, string | number | null][] = [
+    ["Origin", lot.origin],
+    ["Variety", lot.variety],
+    ["Fermentation", lot.fermentationPct != null ? `${lot.fermentationPct}%` : null],
+    ["Moisture", lot.moisturePct != null ? `${lot.moisturePct}%` : null],
+  ];
+  return (
+    <div className="group">
+      {lot.specSheetUrl ? (
+        <div className="relative mb-6 aspect-[3/4] overflow-hidden">
+          <Image
+            src={lot.specSheetUrl}
+            alt={lot.name ?? "Cacao lot"}
+            fill
+            className="object-cover"
+            sizes="(max-width:768px) 100vw, 33vw"
+          />
+        </div>
+      ) : (
+        <MediaPlaceholder
+          label={`${lot.name ?? "Lot"} — Image Placeholder`}
+          aspectRatio="aspect-[3/4]"
+          className="mb-6"
+        />
+      )}
+      <h3 className="heading-h3 mb-3">{lot.name ?? "Lot name — on request"}</h3>
+      <dl className="mb-4 space-y-1">
+        {specs.map(([k, v]) => (
+          <div key={k} className="flex justify-between gap-4 text-sm">
+            <dt className="font-sans uppercase tracking-[0.15em] text-[11px] text-chocolate/45">
+              {k}
+            </dt>
+            <dd className="body-text text-chocolate/70">{v ?? "—"}</dd>
+          </div>
+        ))}
+      </dl>
+      <Link href="/connect" className="cta-link">
+        Request Sample
+      </Link>
+    </div>
+  );
+}
 
-type Tab = (typeof tabs)[number];
+function EmptyState() {
+  return (
+    <FadeIn>
+      <div className="border border-chocolate/10 bg-cream/60 px-6 py-16 text-center max-w-2xl mx-auto">
+        <p className="section-label mb-4">Current lots</p>
+        <h3 className="heading-h3 mb-4">Full specifications available on request</h3>
+        <p className="body-paragraph max-w-[46ch] mx-auto mb-8">
+          Origin, variety, fermentation level, moisture, cut-test, harvest date, and
+          certifications for each lot are shared with a sample. Tell us your flavour
+          target and volume and we&apos;ll send matching options.
+        </p>
+        <Link href="/connect" className="cta-link">
+          Request a Sample &amp; Quote
+        </Link>
+      </div>
+    </FadeIn>
+  );
+}
 
-const products: Record<Tab, { name: string; description: string }[]> = {
-  "Single Origin": [
-    {
-      name: "West Godavari Estate",
-      description: "Classic profile with notes of tropical fruit and warm spice.",
-    },
-    {
-      name: "Godavari Reserve",
-      description: "Deep cocoa with subtle floral undertones.",
-    },
-    {
-      name: "River Valley Select",
-      description: "Bright acidity with honey and nutty finish.",
-    },
-  ],
-  "Single Farm": [
-    {
-      name: "Prasad Farm Lot",
-      description: "Dedicated harvest from a single farmer's finest trees.",
-    },
-    {
-      name: "Rao Estate Micro-lot",
-      description: "Limited batch with distinctive terroir expression.",
-    },
-    {
-      name: "Talikadapudi Farm",
-      description: "Beans from our fermentery-adjacent partner farm.",
-    },
-  ],
-  "Creative Fermentation": [
-    {
-      name: "Long Pepper Infusion",
-      description: "Fermented alongside local long pepper for complex spice.",
-    },
-    {
-      name: "Banana Leaf Protocol",
-      description: "Traditional wrapping technique for enhanced fruit notes.",
-    },
-    {
-      name: "Areca Nut Shade Dried",
-      description: "Slow-dried under areca canopy for mellow sweetness.",
-    },
-  ],
-  "Custom Fermentation": [
-    {
-      name: "Maker's Blend A",
-      description: "Collaborative protocol designed with partner chocolatiers.",
-    },
-    {
-      name: "Maker's Blend B",
-      description: "Custom fermentation profile for specific flavour targets.",
-    },
-    {
-      name: "Bespoke Lot",
-      description: "Fully tailored post-harvest process for your brand.",
-    },
-  ],
-};
-
-export function Products() {
-  const [activeTab, setActiveTab] = useState<Tab>("Single Origin");
+export function Products({ products = [] as CacaoLot[] }: { products?: CacaoLot[] }) {
+  const [active, setActive] = useState<ProductCategory>(PRODUCT_CATEGORIES[0].id);
+  const lots = lotsByCategory(products, active);
 
   return (
-    <section id="products" className="section-padding bg-cream-200/50 pt-32 md:pt-40">
+    <section id="products" className="section-padding bg-cream-200/50">
       <div className="max-w-7xl mx-auto">
         <FadeIn>
           <div className="text-center max-w-3xl mx-auto mb-12">
             <p className="section-label mb-4">Introducing</p>
-            <h2 className="heading-h2 mb-4">
-              West Godavari Cacao Beans
-            </h2>
+            <h2 className="heading-h2 mb-4">West Godavari Cacao Beans</h2>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.1}>
           <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
-            {tabs.map((tab) => (
+            {PRODUCT_CATEGORIES.map((tab) => (
               <button
-                key={tab}
+                key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab)}
+                onClick={() => setActive(tab.id)}
                 className={`nav-link px-5 py-2.5 text-xs uppercase tracking-[0.15em] border transition-all duration-300 ${
-                  activeTab === tab
+                  active === tab.id
                     ? "border-earth-gold text-earth-gold bg-earth-gold/5"
                     : "border-chocolate/20 text-chocolate/50 hover:border-chocolate/40 hover:text-chocolate/80"
                 }`}
               >
-                {tab}
+                {tab.label}
               </button>
             ))}
           </div>
         </FadeIn>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {products[activeTab].map((product, i) => (
-            <FadeIn key={product.name} delay={0.1 * i}>
-              <div className="group">
-                <MediaPlaceholder
-                  label={`${product.name} — Product Image Placeholder`}
-                  aspectRatio="aspect-[3/4]"
-                  className="mb-6 group-hover:border-chocolate/20 transition-colors duration-500"
-                />
-                <h3 className="heading-h3 mb-2">
-                  {product.name}
-                </h3>
-                <p className="body-text text-chocolate/60 mb-4">
-                  {product.description}
-                </p>
-                <Link href="/connect" className="cta-link text-sm">
-                  Request Samples
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </Link>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-
-        <FadeIn delay={0.2}>
-          <div className="text-center mt-16 pt-12 border-t border-chocolate/10">
-            <Link href="/connect" className="cta-link">
-              Speak to Our Team
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </Link>
+        {lots.length > 0 ? (
+          <div className="grid md:grid-cols-3 gap-8">
+            {lots.map((lot, i) => (
+              <FadeIn key={lot.slug} delay={0.1 * i}>
+                <LotCard lot={lot} />
+              </FadeIn>
+            ))}
           </div>
-        </FadeIn>
+        ) : (
+          <EmptyState />
+        )}
       </div>
     </section>
   );

@@ -29,7 +29,6 @@ const stages: Stage[] = [
 const TOTAL = stages.length;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// crossfade window for a given stage index
 function stageWindow(index: number) {
   const o = 0.04;
   const bi = index / TOTAL;
@@ -58,17 +57,17 @@ function StageImage({
   return (
     <motion.div
       style={{ opacity, scale }}
-      className="absolute inset-0 flex items-center justify-center"
+      className="absolute inset-x-0 top-[36%] bottom-[22%] flex items-center justify-center lg:inset-x-auto lg:left-[44%] lg:right-6 xl:right-14 lg:top-[10%] lg:bottom-[18%]"
       aria-hidden={index !== 0}
     >
-      <div className="relative h-[46vh] w-[46vh] md:h-[54vh] md:w-[54vh]">
+      <div className="relative h-[min(36vh,100%)] w-[min(36vh,88vw)] md:h-[min(40vh,100%)] md:w-[min(40vh,40vh)] lg:h-[min(50vh,100%)] lg:w-[min(50vh,50vh)] aspect-square">
         <Image
           src={stage.img}
           alt={stage.alt}
           fill
           priority={index === 0}
           className="object-contain drop-shadow-[0_18px_40px_rgba(45,27,20,0.18)]"
-          sizes="54vh"
+          sizes="50vh"
         />
       </div>
     </motion.div>
@@ -98,7 +97,7 @@ function StageCaption({
   return (
     <motion.div
       style={{ opacity, y }}
-      className="absolute bottom-24 md:bottom-28 left-0 right-0 flex flex-col items-center text-center px-6"
+      className="absolute bottom-[14%] md:bottom-[13%] left-6 md:left-12 lg:left-20 max-w-xs md:max-w-md text-left"
     >
       <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-chocolate/55 mb-2">
         Step {stage.n} / {String(TOTAL).padStart(2, "0")}
@@ -106,7 +105,7 @@ function StageCaption({
       <h3 className="font-presto-display text-[30px] md:text-[40px] font-normal leading-[1.05] text-chocolate mb-2">
         {stage.title}
       </h3>
-      <p className="font-sans text-sm md:text-[15px] text-chocolate/75 max-w-[34ch]">
+      <p className="font-sans text-sm md:text-[15px] text-chocolate/75 max-w-[38ch]">
         {stage.text}
       </p>
     </motion.div>
@@ -134,36 +133,48 @@ const trustTags = [
 export function HeroSequence() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
   const introOpacity = useTransform(scrollYProgress, [0, 0.09], [1, 0]);
-  const introY = useTransform(scrollYProgress, [0, 0.09], [0, -30]);
+  const introY = useTransform(scrollYProgress, [0, 0.09], [0, -24]);
   const objectScale = useTransform(scrollYProgress, [0, 0.12], [0.88, 1]);
-  // captions stay hidden through the intro, appear once scrolling begins
   const captionsGate = useTransform(scrollYProgress, [0, 0.1, 0.15], [0, 0, 1]);
   const hintOpacity = useTransform(scrollYProgress, [0, 0.06], [1, 0]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
 
   if (reduce) {
     return (
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center bg-cream section-padding pt-32">
-        <p className="intro-script mb-4">In pursuit of</p>
-        <div className="relative h-[38vh] w-[38vh] my-6">
-          <Image src={stages[0].img} alt={stages[0].alt} fill priority className="object-contain" sizes="38vh" />
-        </div>
-        <h1 className="heading-h1 max-w-3xl mb-8">A fine-flavoured Indian Cacao Bean</h1>
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
-          {trustTags.map((t, i) => (
-            <span key={t} className="flex items-center gap-3">
-              {i > 0 && <span className="text-chocolate/30" aria-hidden>|</span>}
-              <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-chocolate/70">{t}</span>
-            </span>
-          ))}
-        </div>
-      </section>
+        <section className="relative min-h-screen flex flex-col bg-cream overflow-hidden">
+          <div className="pointer-events-none absolute inset-0">
+            <Image src="/images/hero-bg-poster.jpg" alt="" fill className="object-cover scale-105 blur-[3px] contrast-[0.88]" priority />
+            <div className="absolute inset-0 bg-cream mix-blend-multiply opacity-30" />
+            <div className="absolute inset-0 bg-cream/45" />
+          </div>
+          <div className="relative flex h-screen flex-col pt-28 lg:flex-row lg:items-center lg:pt-32">
+            <div className="flex flex-[0.34] flex-col items-center justify-end px-6 pb-4 text-center lg:flex-none lg:w-[44%] lg:items-start lg:justify-center lg:pb-0 lg:pl-12 lg:pr-8 lg:text-left xl:pl-20">
+              <p className="intro-script mb-3">In pursuit of</p>
+              <h1 className="heading-h1 max-w-3xl lg:max-w-md xl:max-w-lg">A fine-flavoured Indian Cacao Bean</h1>
+            </div>
+            <div className="flex flex-[0.38] items-center justify-center px-6 lg:flex-1 lg:justify-end lg:pr-12 xl:pr-16">
+              <div className="relative aspect-square h-[min(36vh,100%)] w-[min(36vh,88vw)] lg:h-[min(50vh,100%)] lg:w-[min(50vh,50vh)]">
+                <Image src={stages[0].img} alt={stages[0].alt} fill priority className="object-contain" sizes="(max-width: 1024px) 36vh, 50vh" />
+              </div>
+            </div>
+            <div className="absolute inset-x-0 bottom-4 flex flex-col items-center px-6 md:bottom-5 lg:bottom-6">
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+                {trustTags.map((t, i) => (
+                  <span key={t} className="flex items-center gap-3">
+                    {i > 0 && <span className="text-chocolate/30" aria-hidden>|</span>}
+                    <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-chocolate/70">{t}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
     );
   }
 
@@ -174,9 +185,26 @@ export function HeroSequence() {
         style={{ height: `${TOTAL * 100}vh` }}
         aria-label="The life of a cacao bean — scroll to explore"
       >
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
-          {/* warm light bloom — makes the object feel lit, not pasted on */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="sticky top-0 h-screen w-full overflow-hidden hero-feather-out">
+          <motion.div style={{ y: bgY }} className="absolute inset-0 scale-110">
+            <video
+              className="hero-drift absolute inset-0 h-full w-full object-cover blur-[3px] contrast-[0.88] saturate-[1.05]"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/images/hero-bg-poster.jpg"
+              aria-hidden
+            >
+              <source src="/videos/hero-bg.mp4" type="video/mp4" />
+            </video>
+          </motion.div>
+
+          <div className="pointer-events-none absolute inset-0 bg-cream mix-blend-multiply opacity-30" />
+          <div className="pointer-events-none absolute inset-0 bg-cream/25" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-cream/70 via-cream/5 to-cream/75" />
+
+          <div aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-center lg:justify-end lg:pr-[6%] xl:pr-[8%]">
             <div
               className="h-[80vh] w-[80vh] rounded-full opacity-70"
               style={{
@@ -185,13 +213,11 @@ export function HeroSequence() {
               }}
             />
           </div>
-          {/* soft ground shadow — anchors the object like a product shot */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-[20vh] h-[3vh] w-[22vh] rounded-[50%] bg-chocolate/15 blur-2xl"
+            className="pointer-events-none absolute left-1/2 top-[63%] -translate-x-1/2 h-[2.5vh] w-[20vh] rounded-[50%] bg-chocolate/15 blur-2xl lg:left-[68%] lg:top-[56%] lg:translate-x-0 lg:w-[18vh]"
           />
 
-          {/* centre object — spring entrance → scroll-scale → gentle ambient float → crossfade */}
           <motion.div style={{ scale: objectScale }} className="absolute inset-0">
             <motion.div
               initial={{ scale: 0.55, opacity: 0 }}
@@ -200,7 +226,7 @@ export function HeroSequence() {
               className="absolute inset-0"
             >
               <motion.div
-                animate={{ y: [0, -14, 0], rotate: [0, 1.2, 0] }}
+                animate={{ y: [0, -8, 0], rotate: [0, 0.8, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
@@ -211,87 +237,81 @@ export function HeroSequence() {
             </motion.div>
           </motion.div>
 
-          {/* entry copy — fades out as the object takes centre */}
           <motion.div
             style={{ opacity: introOpacity, y: introY }}
-            className="absolute inset-0 flex flex-col items-center justify-between py-[14vh] md:py-[13vh] text-center pointer-events-none"
+            className="absolute inset-x-0 top-0 h-[36%] flex flex-col items-center justify-end text-center pointer-events-none px-6 pb-4 md:pb-5 pt-24 md:pt-28 lg:h-[72%] lg:items-start lg:justify-center lg:text-left lg:px-12 xl:px-20 lg:max-w-[44%] lg:pb-0 lg:pt-32"
           >
-            <div>
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.15, ease: EASE }}
-                className="font-presto-display italic text-[19px] md:text-[24px] tracking-wide text-chocolate/70 mb-4"
-              >
-                In pursuit of
-              </motion.p>
-              <h1 className="font-presto-display text-[44px] md:text-[64px] font-light leading-[1.04] tracking-[-0.02em] text-chocolate max-w-4xl mx-auto px-6 [font-optical-sizing:auto]">
-                <motion.span
-                  className="block"
-                  initial={{ opacity: 0, y: 22 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.1, delay: 0.35, ease: EASE }}
-                >
-                  A fine-flavoured
-                </motion.span>
-                <motion.span
-                  className="block"
-                  initial={{ opacity: 0, y: 22 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.1, delay: 0.5, ease: EASE }}
-                >
-                  Indian Cacao Bean
-                </motion.span>
-              </h1>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.05 }}
-              className="flex flex-col items-center gap-5"
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.15, ease: EASE }}
+              className="font-presto-display italic text-[19px] md:text-[24px] tracking-wide text-chocolate/70 mb-3"
             >
-              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6">
+              In pursuit of
+            </motion.p>
+            <h1 className="font-presto-display text-[40px] md:text-[58px] lg:text-[52px] xl:text-[58px] font-light leading-[1.04] tracking-[-0.02em] text-chocolate max-w-4xl mx-auto px-6 lg:mx-0 lg:px-0 lg:max-w-md xl:max-w-lg [font-optical-sizing:auto]">
+              <motion.span
+                className="block"
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.1, delay: 0.35, ease: EASE }}
+              >
+                A fine-flavoured
+              </motion.span>
+              <motion.span
+                className="block"
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.1, delay: 0.5, ease: EASE }}
+              >
+                Indian Cacao Bean
+              </motion.span>
+            </h1>
+          </motion.div>
+
+          <div className="absolute inset-x-0 bottom-0 flex flex-col items-center pb-4 md:pb-5 pointer-events-none">
+            <motion.div
+              style={{ opacity: introOpacity }}
+              className="flex flex-col items-center px-6 mb-3 md:mb-3.5"
+            >
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 max-w-3xl">
+                <div className="divider-dotted w-full max-w-xl mb-1" />
                 {trustTags.map((tag, i) => (
                   <span key={tag} className="flex items-center gap-3">
                     {i > 0 && <span className="text-chocolate/30 hidden sm:inline" aria-hidden>|</span>}
                     <span className="font-sans text-[10px] sm:text-xs uppercase tracking-[0.25em] text-chocolate/70">{tag}</span>
                   </span>
                 ))}
+                <div className="divider-dotted w-full max-w-xl mt-1" />
               </div>
             </motion.div>
-          </motion.div>
+            <div className="flex items-center gap-2.5">
+              {stages.map((_, i) => (
+                <RailDot key={i} index={i} progress={scrollYProgress} />
+              ))}
+            </div>
+          </div>
 
-          {/* stage captions — gated so they only appear after the intro clears */}
           <motion.div style={{ opacity: captionsGate }} className="absolute inset-0 pointer-events-none">
             {stages.map((stage, i) => (
               <StageCaption key={stage.n} stage={stage} index={i} progress={scrollYProgress} />
             ))}
           </motion.div>
 
-          {/* start hint — minimal animated chevron only */}
           <motion.div
             style={{ opacity: hintOpacity }}
-            className="absolute bottom-14 left-1/2 -translate-x-1/2 text-chocolate/45"
+            className="absolute top-[66%] left-1/2 -translate-x-1/2 text-chocolate/40 lg:hidden"
             aria-hidden
           >
             <motion.span
-              animate={{ y: [0, 6, 0] }}
+              animate={{ y: [0, 5, 0] }}
               transition={{ repeat: Infinity, duration: 1.8 }}
-              className="block text-base leading-none"
+              className="block text-sm leading-none"
             >
               ↓
             </motion.span>
           </motion.div>
 
-          {/* progress rail */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5">
-            {stages.map((_, i) => (
-              <RailDot key={i} index={i} progress={scrollYProgress} />
-            ))}
-          </div>
-
-          {/* overall progress bar */}
           <div className="absolute bottom-0 inset-x-0 h-px bg-chocolate/10">
             <motion.div style={{ scaleX: scrollYProgress }} className="h-full w-full origin-left bg-chocolate/50" />
           </div>

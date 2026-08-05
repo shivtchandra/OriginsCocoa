@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
-import { MediaPlaceholder } from "./MediaPlaceholder";
 
 const rows = [
   {
@@ -11,7 +10,7 @@ const rows = [
     description:
       "Fertile West Godavari land, scientific fermentation, and sun-drying — the making of a distinct Indian cacao.",
     href: "/our-craft",
-    image: "/images/cacao-farm.jpg",
+    image: "/images/origin-story-harvest.webp",
     imageAlt: "Cacao farm in West Godavari",
   },
   {
@@ -49,11 +48,11 @@ const rows = [
 export function HomeIndex() {
   return (
     <section className="bg-cream">
-      <div className="section-padding !pb-16">
-        <div className="max-w-2xl mx-auto text-center">
+      <div className="section-padding !pb-12 md:!pb-16">
+        <div className="max-w-7xl mx-auto px-0">
           <FadeIn>
-            <p className="section-label mb-4">Discover Origins</p>
-            <h2 className="heading-h2">A fine-flavoured journey</h2>
+            <p className="folio mb-3">Index</p>
+            <h2 className="heading-h2 max-w-[16ch]">A fine-flavoured journey</h2>
           </FadeIn>
         </div>
       </div>
@@ -66,23 +65,15 @@ export function HomeIndex() {
               <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center py-16 lg:py-24">
                 <FadeIn className={flip ? "lg:order-2" : ""}>
                   <Link href={row.href} className="group block relative overflow-hidden">
-                    {row.label === "Products" ? (
-                      <div className="relative aspect-[4/3] overflow-hidden">
-                        <Image
-                          src={row.image}
-                          alt={row.imageAlt}
-                          fill
-                          className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                        />
-                      </div>
-                    ) : (
-                      <MediaPlaceholder
-                        label={`${row.label} — Image Placeholder`}
-                        aspectRatio="aspect-[4/3]"
-                        className="transition-colors duration-500 group-hover:border-chocolate/20"
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={row.image}
+                        alt={row.imageAlt}
+                        fill
+                        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
                       />
-                    )}
+                    </div>
                   </Link>
                 </FadeIn>
 
@@ -92,7 +83,7 @@ export function HomeIndex() {
                     {row.label}
                   </p>
                   <h3 className="heading-h3 mb-5 max-w-[18ch]">{row.title}</h3>
-                  <p className="body-paragraph max-w-[46ch] mb-8">
+                  <p className="body-paragraph max-w-[42ch] mb-8">
                     {row.description}
                   </p>
                   <Link href={row.href} className="cta-link">

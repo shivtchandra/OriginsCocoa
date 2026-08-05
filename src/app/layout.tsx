@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Fraunces, Space_Grotesk } from "next/font/google";
 import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
+import { SiteClosing } from "@/components/SiteClosing";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -48,7 +48,7 @@ export default function RootLayout({
       <body>
         <Navigation />
         {children}
-        <Footer />
+        <SiteClosing />
       </body>
     </html>
   );
