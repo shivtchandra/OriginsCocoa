@@ -26,13 +26,42 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.originscocoa.com";
+
+const defaultTitle =
+  "Origins Cocoa — Fine-Flavoured Indian Cacao from West Godavari";
+const defaultDescription =
+  "Premium Indian cacao beans from farm to fermentery. Single origin, traceable, farmer-direct West Godavari cacao for craft chocolate makers worldwide.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Origins Cocoa — Fine-Flavoured Indian Cacao from West Godavari",
+    default: defaultTitle,
     template: "%s",
   },
-  description:
-    "Premium Indian cacao beans from farm to fermentery. Single origin, traceable, farmer-direct West Godavari cacao for craft chocolate makers worldwide.",
+  description: defaultDescription,
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: siteUrl,
+    siteName: "Origins Cocoa",
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [
+      {
+        url: "/images/og/og-home-1200x630.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Origins Cocoa — single origin cacao honestly sourced from West Godavari",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: defaultDescription,
+    images: ["/images/og/og-home-1200x630.jpg"],
+  },
 };
 
 export default function RootLayout({

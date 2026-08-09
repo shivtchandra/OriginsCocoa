@@ -42,14 +42,14 @@ export function Navigation() {
             : "bg-transparent"
         }`}
       >
-        <nav className="flex items-center justify-between px-6 py-5 md:px-12 lg:px-20">
+        <nav className="flex items-center justify-between px-6 py-3 md:px-12 md:py-3.5 lg:px-20">
           <Link href="/" className="group flex flex-col leading-none">
-            <span className="font-presto-display text-[22px] md:text-[26px] font-semibold uppercase leading-[0.9] tracking-[0.02em] text-chocolate">
+            <span className="font-presto-display text-[20px] md:text-[24px] font-semibold uppercase leading-[0.9] tracking-[0.02em] text-chocolate">
               Origins
               <br />
               Cocoa
             </span>
-            <span className="mt-1.5 font-sans text-[8px] md:text-[9px] font-medium uppercase tracking-[0.28em] text-chocolate/50">
+            <span className="mt-1 font-sans text-[7px] md:text-[8px] font-medium uppercase tracking-[0.28em] text-chocolate/50">
               A West Godavari Initiative
             </span>
           </Link>

@@ -10,8 +10,10 @@ const rows = [
     description:
       "Fertile West Godavari land, scientific fermentation, and sun-drying — the making of a distinct Indian cacao.",
     href: "/our-craft",
-    image: "/images/origin-story-harvest.webp",
-    imageAlt: "Cacao farm in West Godavari",
+    image: "/images/index/index-craft-farm.webp",
+    imageAlt:
+      "Gouache illustration of cacao harvest in West Godavari — farmers carrying pods along a path at golden hour",
+    imagePosition: "object-center",
   },
   {
     folio: "02",
@@ -20,8 +22,10 @@ const rows = [
     description:
       "Single origin, single farm, and custom fermentation lots — crafted for professional makers and passionate creators alike.",
     href: "/products",
-    image: "/images/origin-story-harvest.jpg",
-    imageAlt: "Premium Indian cacao beans",
+    image: "/images/index/index-products-beans.webp",
+    imageAlt:
+      "Fermented and dried cacao beans on cream linen with ripe pods in the background",
+    imagePosition: "object-center",
   },
   {
     folio: "03",
@@ -30,20 +34,24 @@ const rows = [
     description:
       "Carefully selected partners, paid a significant premium within 24 hours through a fully transparent digital platform.",
     href: "/community",
-    image: "/images/fermentery-hero-poster.jpg",
-    imageAlt: "Farmer community at the fermentery",
+    image: "/images/index/index-community-farmers.webp",
+    imageAlt:
+      "Farmer-members at the Origins Cacao Fermentery in Talikadapudi, West Godavari",
+    imagePosition: "object-[center_35%]",
   },
   {
     folio: "04",
     label: "Traceability",
     title: "End-to-end traceable beans",
     description:
-      "Every step of the bean's journey — farm, farmer, harvest, and post-harvest — meticulously recorded and made transparent.",
+      "Every step of the bean\'s journey — farm, farmer, harvest, and post-harvest — meticulously recorded and made transparent.",
     href: "/our-craft#traceability",
-    image: "/images/origin-story-harvest.jpg",
-    imageAlt: "Traceable cacao beans",
+    image: "/images/index/index-traceability.webp",
+    imageAlt:
+      "Origins Cacao batch label on a jute sack beside a tablet showing farm-to-ship traceability",
+    imagePosition: "object-center",
   },
-];
+] as const;
 
 export function HomeIndex() {
   return (
@@ -64,13 +72,16 @@ export function HomeIndex() {
             <div key={row.href}>
               <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center py-16 lg:py-24">
                 <FadeIn className={flip ? "lg:order-2" : ""}>
-                  <Link href={row.href} className="group block relative overflow-hidden">
+                  <Link
+                    href={row.href}
+                    className="group block relative overflow-hidden rounded-sm border border-chocolate/10 bg-cream-200/40"
+                  >
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <Image
                         src={row.image}
                         alt={row.imageAlt}
                         fill
-                        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                        className={`object-cover ${row.imagePosition} transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]`}
                         sizes="(max-width: 1024px) 100vw, 50vw"
                       />
                     </div>
