@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { ADMIN_NAV_ICONS } from "@/app/admin/components/AdminIcons";
 
 const NAV_ITEMS = [
+  { href: "/admin", label: "Dashboard", iconKey: "dashboard", exact: true },
   { href: "/admin/products", label: "Cacao Lots", iconKey: "products" },
   { href: "/admin/categories", label: "Categories", iconKey: "categories" },
   { href: "/admin/about", label: "Our Craft", iconKey: "about" },
@@ -29,7 +30,7 @@ export default function OriginsAdminShell({ userEmail, children }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`admin-nav-link${pathname.startsWith(item.href) ? " is-active" : ""}`}
+                className={`admin-nav-link${(item.exact ? pathname === item.href : pathname.startsWith(item.href)) ? " is-active" : ""}`}
               >
                 <span className="admin-nav-icon">
                   <Icon />
